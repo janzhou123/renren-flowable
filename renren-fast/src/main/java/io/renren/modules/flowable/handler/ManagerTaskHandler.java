@@ -1,5 +1,7 @@
 package io.renren.modules.flowable.handler;
 
+import com.alibaba.fastjson.JSONObject;
+import io.renren.modules.flowable.contants.ExpenseContantsEnum;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.IdentityService;
 import org.flowable.engine.ProcessEngine;
@@ -25,9 +27,9 @@ public class ManagerTaskHandler implements TaskListener {
 
     ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
     RuntimeService runtimeService = processEngine.getRuntimeService();
-
-
-    Object nextPerson = runtimeService.getVariable(delegateTask.getExecutionId(),"next_person");
+    Object nextPerson = runtimeService.getVariable(delegateTask.getExecutionId(),ExpenseContantsEnum.NEXT_PERSON.getCode());
+    logger.info("=====设置"+ExpenseContantsEnum.NEXT_PERSON.getDesc()+"="+nextPerson.toString());
+    logger.info("======runtimeService.getVariables"+JSONObject.toJSONString(runtimeService.getVariables(delegateTask.getExecutionId())));
     delegateTask.setAssignee(nextPerson.toString());
 //    delegateTask.addCandidateGroup(); 增加候选组
   }
